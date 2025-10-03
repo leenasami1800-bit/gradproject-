@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StorySpace03 — Reading Interface</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary: #4a6fa5;
+      --primary-dark: #166088;
+      --light: #f8f9fa;
+      --text: #222;
+      --card-bg: #fff;
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg,#f3f7fb,#eaf3fc);
+      color:var(--text);
+      margin:0;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      width:260px;
+      position:fixed;
+      left:0; top:0; bottom:0;
+      background:linear-gradient(180deg,var(--primary),var(--primary-dark));
+      color:#fff;
+      padding:24px 18px;
+      border-radius:0 20px 20px 0;
+      box-shadow: 6px 8px 30px rgba(10,30,60,0.08);
+      display:flex; flex-direction:column; gap:18px;
+      z-index:1000;
+    }
+    .logo{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo .icon{
+      width:48px;height:48px;border-radius:10px;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;
+    }
+    .logo h2{font-size:1.25rem;margin:0;font-weight:700}
+
+    .nav-link{
+      color:rgba(255,255,255,0.92);
+      padding:10px 12px;border-radius:10px;margin-bottom:6px;display:flex;align-items:center;gap:12px;font-weight:600;
+    }
+    .nav-link.active, .nav-link:hover{background:rgba(255,255,255,0.08);transform:translateX(6px)}
+
+    .sidebar .footer{margin-top:auto;text-align:center}
+    .user-avatar{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--primary);display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+
+    /* Main area */
+    .main{
+      margin-left:280px;
+      padding:28px;
+      min-height:100vh;
+    }
+
+    .header{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px;
+    }
+
+    /* Reader card */
+    .reader-card{
+      background:var(--card-bg);
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 8px 30px rgba(10,30,60,0.06);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+
+    .reader-top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom:16px;
+    }
+    .progress-wrap{flex:1;margin-right:14px}
+    .controls{display:flex;align-items:center;gap:10px}
+
+    .btn-ghost{
+      background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px 10px;border-radius:10px;color:var(--text);
+    }
+    .btn-ghost:hover{background:rgba(0,0,0,0.03)}
+
+    /* Reading area */
+    .reading-area{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px 18px 18px 18px;
+      line-height:1.9;
+      font-family: 'Merriweather', serif;
+      font-size:20px;
+      color:#111;
+      background:linear-gradient(180deg, #fff, #fbfdff);
+      border-radius:10px;
+    }
+
+    .reading-area .controls-bottom{
+      display:flex; justify-content:flex-end; gap:18px; align-items:center; margin-top:18px;
+    }
+
+    /* small icons */
+    .icon-btn{background:transparent;border:none;color:var(--text);font-size:1.25rem;cursor:pointer}
+    .icon-btn.active{color:var(--primary)}
+
+    /* Notes modal */
+    .note-item{background:#f8f9fb;border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid rgba(0,0,0,0.04)}
+
+    /* small screens */
+    @media (max-width: 992px){
+      .sidebar{transform:translateX(-100%);position:fixed}
+      .main{margin-left:20px}
+      .menu-btn{display:inline-block}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="icon">📚</div>
+      <div>
+        <h2>StorySpace03</h2>
+        <div style="font-size:12px;opacity:0.9">Reading</div>
+      </div>
+    </div>
+
+   <nav class="mt-3">
+  <a class="nav-link active" href="index.html"><i class="bi bi-house-fill"></i> Home</a>
+  <a class="nav-link" href="#"><i class="bi bi-journal-bookmark-fill"></i> Profile</a>
+  <a class="nav-link" href="favorite.html"><i class="bi bi-book-half"></i> Favorites</a>
+  <a class="nav-link" href="settings.html"><i class="bi bi-gear-fill"></i> Settings</a>
+</nav>
+
+
+
+    <div class="footer">
+      <div style="display:flex;gap:10px;align-items:center;justify-content:center">
+        <div class="user-avatar">AD</div>
+        <div style="font-size:13px">Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-outline-secondary menu-btn" id="menu-toggle" style="display:none"><i class="bi bi-list"></i></button>
+        <h3 style="margin:0">Reading — <small style="color:#6c757d">My friends</small></h3>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:14px;color:#6c757d">Progress <strong id="progress-label">56%</strong></div>
+        <div style="width:180px">
+          <div class="progress" style="height:8px;border-radius:10px;background:#edf4fb">
+            <div id="progress-bar" class="progress-bar" role="progressbar" style="width:56%;background:linear-gradient(90deg,var(--primary),var(--primary-dark))"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reader-card">
+      <div class="reader-top">
+        <div class="progress-wrap">
+          <!-- large progress + controls -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="font-weight:600;font-size:1rem">Progress <span id="progress-label2" style="margin-left:6px;color:#166088">56%</span></div>
+
+            <div class="controls">
+              <label class="me-1" style="font-size:0.9rem;color:#6c757d">Font</label>
+              <select id="font-size-select" class="form-select form-select-sm" style="width:110px">
+                <option value="18">Small</option>
+                <option value="20" selected>Medium</option>
+                <option value="24">Large</option>
+                <option value="28">XL</option>
+              </select>
+
+              <button class="btn-ghost" id="bg-toggle" title="Toggle background/theme"><i class="bi bi-circle-half"></i></button>
+              <button class="btn-ghost" id="blue-bg" title="Blue background"><i class="bi bi-brush"></i></button>
+
+              <button class="btn-ghost" id="bookmark-btn" title="Bookmark"><i class="bi bi-bookmark" id="bookmark-icon"></i></button>
+
+              <div class="input-group input-group-sm" style="width:220px">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input id="search-input" type="text" class="form-control form-control-sm" placeholder="Search in text...">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading area -->
+      <article id="reading" class="reading-area" tabindex="0" aria-label="Reader">
+        <h2 style="margin-top:0">My friends</h2>
+
+        <p>
+          #1 New York Times bestselling author Fredrik Backman returns with an unforgettably funny, deeply moving tale of four teenagers whose friendship creates a bond so powerful that it changes a complete stranger’s life twenty-five years later.
+        </p>
+
+        <p>
+          Most people don’t even notice them—three tiny figures sitting at the end of a long pier in the corner of one of the most famous paintings in the world. Most people think it’s just a depiction of the sea. But Louisa, an aspiring artist herself, knows otherwise, and she is determined to find out the story of these three enigmatic figures.
+        </p>
+
+        <p>
+          Twenty-five years earlier, in a distant seaside town, a group of teenagers find refuge from their bruising home lives by spending long summer days on an abandoned pier, telling silly jokes, sharing secrets, and committing small acts of rebellion. These lost souls find in each other a reason to get up each morning, a reason to dream, a reason to love.
+        </p>
+
+        <p>
+          Out of that summer emerges a transcendent work of art, a painting that will unexpectedly be placed into eighteen-year-old Louisa’s care. She embarks on a surprise-filled cross-country journey to learn how the painting came to be and to decide what to do with it. The closer she gets to the painting’s birthplace, the more nervous she becomes about what she’ll find. Louisa is proof that happy endings don’t always take the form we expect in this stunning testament to the transformative, timeless power of friendship and art.
+        </p>
+
+        <hr>
+
+        <div class="reading-footer" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div class="controls-bottom">
+            <button class="icon-btn" id="note-btn" title="Notes"><i class="bi bi-journal-text"></i></button>
+            <button class="icon-btn" id="annotate-btn" title="Annotate"><i class="bi bi-pencil"></i></button>
+            <button class="icon-btn" id="tts-btn" title="Play/Stop audio"><i class="bi bi-volume-up" id="tts-icon"></i></button>
+          </div>
+
+          <div style="color:#6c757d;font-size:14px">Page 12 • 56% read</div>
+        </div>
+
+      </article>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal fade" id="notesModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Notes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="notes-list" style="max-height:240px;overflow:auto"></div>
+            <hr>
+            <textarea id="note-text" class="form-control mb-2" rows="3" placeholder="Write a note..."></textarea>
+            <button id="save-note" class="btn btn-primary w-100">Save Note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Elements
+    const reading = document.getElementById('reading');
+    const progressBar = document.getElementById('progress-bar');
+    const progressLabel = document.getElementById('progress-label');
+    const progressLabel2 = document.getElementById('progress-label2');
+    const fontSelect = document.getElementById('font-size-select');
+    const bgToggle = document.getElementById('bg-toggle');
+    const blueBg = document.getElementById('blue-bg');
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const bookmarkIcon = document.getElementById('bookmark-icon');
+    const searchInput = document.getElementById('search-input');
+    const notesModal = new bootstrap.Modal(document.getElementById('notesModal'));
+    const notesList = document.getElementById('notes-list');
+    const noteText = document.getElementById('note-text');
+    const saveNoteBtn = document.getElementById('save-note');
+    const noteBtn = document.getElementById('note-btn');
+    const ttsBtn = document.getElementById('tts-btn');
+    const ttsIcon = document.getElementById('tts-icon');
+
+    // Initialize font size
+    reading.style.fontSize = fontSelect.value + 'px';
+    fontSelect.addEventListener('change', e => {
+      reading.style.fontSize = e.target.value + 'px';
+    });
+
+    // Scroll progress calculator
+    function updateProgress(){
+      const total = reading.scrollHeight - reading.clientHeight;
+      const scrolled = reading.scrollTop;
+      const percent = total > 0 ? Math.round((scrolled / total) * 100) : 0;
+      progressBar.style.width = percent + '%';
+      progressLabel.textContent = percent + '%';
+      progressLabel2.textContent = percent + '%';
+    }
+    // update on scroll and on load
+    reading.addEventListener('scroll', updateProgress);
+    window.addEventListener('load', updateProgress);
+    window.addEventListener('resize', updateProgress);
+
+    // Theme / background toggles
+    let dark = false;
+    bgToggle.addEventListener('click', () => {
+      dark = !dark;
+      if(dark){
+        reading.style.background = '#0b2340';
+        reading.style.color = '#e9f2ff';
+      } else {
+        reading.style.background = 'linear-gradient(180deg,#fff,#fbfdff)';
+        reading.style.color = '#111';
+      }
+    });
+
+    // Blue background quick apply
+    blueBg.addEventListener('click', () => {
+      reading.style.background = 'linear-gradient(180deg,#eaf3ff,#ddefff)';
+      reading.style.color = '#082033';
+    });
+
+    // Bookmark toggle
+    let bookmarked = false;
+    bookmarkBtn.addEventListener('click', () => {
+      bookmarked = !bookmarked;
+      if(bookmarked){
+        bookmarkIcon.classList.remove('bi-bookmark');
+        bookmarkIcon.classList.add('bi-bookmark-fill');
+        bookmarkBtn.classList.add('active');
+      } else {
+        bookmarkIcon.classList.remove('bi-bookmark-fill');
+        bookmarkIcon.classList.add('bi-bookmark');
+        bookmarkBtn.classList.remove('active');
+      }
+    });
+
+    // Search in text (highlight first match and scroll to it)
+    searchInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        const q = searchInput.value.trim().toLowerCase();
+        if(!q) return;
+        // remove previous highlights
+        removeHighlights();
+        // find first match
+        const walker = document.createTreeWalker(reading, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        let found = false;
+        while(node = walker.nextNode()){
+          const text = node.nodeValue.toLowerCase();
+          const idx = text.indexOf(q);
+          if(idx !== -1){
+            found = true;
+            const range = document.createRange();
+            range.setStart(node, idx);
+            range.setEnd(node, idx + q.length);
+            const mark = document.createElement('mark');
+            mark.style.background = 'yellow';
+            range.surroundContents(mark);
+            mark.scrollIntoView({behavior:'smooth', block:'center'});
+            break;
+          }
+        }
+        if(!found) alert('No matches found.');
+      }
+    });
+
+    function removeHighlights(){
+      const marks = reading.querySelectorAll('mark');
+      marks.forEach(m => {
+        const parent = m.parentNode;
+        parent.replaceChild(document.createTextNode(m.textContent), m);
+        parent.normalize();
+      });
+    }
+
+    // Notes functionality (store in memory)
+    let notes = JSON.parse(localStorage.getItem('reader_notes') || '[]');
+    function renderNotes(){
+      notesList.innerHTML = notes.length ? notes.map((n,i)=>`
+        <div class="note-item">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:#6c757d">Note ${i+1}</div>
+            <button class="btn btn-sm btn-link text-danger" data-index="${i}" onclick="deleteNote(event)">Delete</button>
+          </div>
+          <div style="margin-top:8px">${escapeHtml(n)}</div>
+        </div>
+      `).join('') : '<div class="text-muted">No notes yet.</div>';
+    }
+    function escapeHtml(text) {
+      const p = document.createElement('p');
+      p.appendChild(document.createTextNode(text));
+      return p.innerHTML;
+    }
+    window.deleteNote = function(e){
+      const i = Number(e.target.getAttribute('data-index'));
+      notes.splice(i,1);
+      localStorage.setItem('reader_notes', JSON.stringify(notes));
+      renderNotes();
+    }
+
+    noteBtn.addEventListener('click', () => {
+      notesModal.show();
+      renderNotes();
+    });
+
+    saveNoteBtn.addEventListener('click', () => {
+      const v = noteText.value.trim();
+      if(!v) return alert('Write something first.');
+      notes.unshift(v);
+      localStorage.setItem('reader_notes', JSON.stringify(notes));
+      noteText.value = '';
+      renderNotes();
+    });
+
+    // Text-to-Speech (simple)
+    let speaking = false;
+    let synth = window.speechSynthesis;
+    ttsBtn.addEventListener('click', () => {
+      if(!synth) return alert('Speech Synthesis not supported in this browser.');
+      if(speaking){
+        synth.cancel();
+        speaking = false;
+        ttsIcon.classList.remove('bi-stop-circle');
+        ttsIcon.classList.add('bi-volume-up');
+      } else {
+        const text = reading.innerText;
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 1;
+        utter.pitch = 1;
+        // choose a voice if available
+        const voices = synth.getVoices();
+        if(voices.length) utter.voice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+        synth.speak(utter);
+        speaking = true;
+        ttsIcon.classList.remove('bi-volume-up');
+        ttsIcon.classList.add('bi-stop-circle');
+        utter.onend = () => { speaking = false; ttsIcon.classList.remove('bi-stop-circle'); ttsIcon.classList.add('bi-volume-up'); };
+      }
+    });
+
+    // small responsive menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    menuToggle && menuToggle.addEventListener('click', () => {
+      const isHidden = sidebar.style.transform === 'translateX(-100%)';
+      sidebar.style.transform = isHidden ? 'translateX(0)' : 'translateX(-100%)';
+    });
+
+    // initial render
+    renderNotes();
+    updateProgress();
+  </script>
+</body>
+</html>

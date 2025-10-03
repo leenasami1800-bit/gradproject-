@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StorySpace03 - </title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #166088;
+      --accent: #e67e22;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4caf50;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+    .navbar.scrolled {
+      padding: 0.5rem 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary) !important;
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand span {
+      color: var(--accent);
+    }
+    .navbar-nav .nav-link {
+      color: var(--dark) !important;
+      font-weight: 500;
+      margin: 0 12px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--primary) !important;
+    }
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(74, 111, 165, 0.9), rgba(22, 96, 136, 0.9)), url('https://images.unsplash.com/photo-1525507119223-57c51f69d44e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      color: white;
+      padding: 4rem 0;
+    }
+    .hero-content {
+      max-width: 700px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    }
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      font-weight: 600;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+    }
+    .btn-primary:hover {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
+    }
+    .btn-outline-primary {
+      background-color: transparent;
+      color: white;
+      border-color: white;
+      font-weight: 600;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .btn-outline-primary:hover {
+      background-color: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* Section Titles */
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent);
+      border-radius: 10px;
+    }
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0;
+    }
+
+    /* Book Cards */
+    .book-card {
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .book-cover {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .book-card:hover .book-cover {
+      transform: scale(1.05);
+    }
+    .card-body {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+    .book-author {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    .rating {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    .rating i {
+      margin-right: 3px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      align-self: flex-start;
+    }
+    .tag.fiction { background-color: #e74c3c; }
+    .tag.self-help { background-color: #e67e22; }
+    .tag.sci-fi { background-color: #8e44ad; }
+    .tag.romance { background-color: #c0392b; }
+    .tag.non-fiction { background-color: #3498db; }
+    .btn-primary.w-100 {
+      margin-top: auto;
+      padding: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 10px;
+    }
+
+    /* Reviews */
+    .review-card {
+      border: none;
+      border-radius: 16px;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .review-card::before {
+      content: '"';
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 5rem;
+      font-family: Georgia, serif;
+      color: rgba(74, 111, 165, 0.1);
+      line-height: 1;
+    }
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    .review-user {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .review-text {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Trending */
+    .trending-section {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 15px 0;
+      scrollbar-width: thin;
+      scrollbar-color: #ddd #f5f5f5;
+    }
+    .trending-section::-webkit-scrollbar {
+      height: 6px;
+    }
+    .trending-section::-webkit-scrollbar-thumb {
+      background-color: #ddd;
+      border-radius: 3px;
+    }
+    .trending-section::-webkit-scrollbar-track {
+      background-color: #f5f5f5;
+    }
+    .trending-section .card {
+      min-width: 200px;
+      flex: 0 0 auto;
+      height: 300px;
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+    .trending-section .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+    .trending-section .card img {
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .trending-section .card:hover img {
+      transform: scale(1.08);
+    }
+    .trending-section .card-body {
+      padding: 1rem;
+    }
+    .trending-section .book-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .trending-section .book-author {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #4a6fa5;
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    
+    .footer-links a {
+      display: block;
+      color: #ccc;
+      text-decoration: none;
+      margin-bottom: 0.8rem;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: white;
+    }
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      margin-right: 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .social-icons a:hover {
+      background-color: var(--primary);
+      transform: translateY(-3px);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      .trending-section {
+        gap: 15px;
+      }
+      .trending-section .card {
+        min-width: 180px;
+      }
+    }
+    @media (max-width: 576px) {
+      .hero {
+        padding: 3rem 0;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 0.9rem;
+      }
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+      .book-card {
+        margin-bottom: 2rem;
+      }
+      .review-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Custom Button Styling */
+    .btn-lg {
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+    }
+
+    /* Animation for fade-in */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    /* Floating elements */
+    .floating-element {
+      position: absolute;
+      opacity: 0.05;
+      z-index: -1;
+    }
+    .floating-book {
+      top: 10%;
+      left: 5%;
+      font-size: 12rem;
+      color: var(--primary);
+    }
+    .floating-star {
+      bottom: 15%;
+      right: 10%;
+      font-size: 8rem;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">📚 StorySpace03</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="search.html">Search</a></li>
+          <li class="nav-item"><a class="nav-link" href="favourite.html">Favourites</a></li>
+          <li class="nav-item"><a class="nav-link" href="Profile.html">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" href="Login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="floating-element floating-book">📖</div>
+    <div class="floating-element floating-star">⭐</div>
+    <div class="container">
+      <div class="hero-content animate-fade-in">
+        <h1>Discover Your Next Great <span>Reading Journey</span></h1>
+        <p>Explore thousands of curated books with AI-powered recommendations and immersive reading experiences designed just for you.</p>
+        <div class="d-flex justify-content-center gap-3 mt-5">
+          <a href="Reading.html" class="btn btn-primary btn-lg px-5">Start Reading Now</a>
+          <a href="#" class="btn btn-outline-primary btn-lg px-5">Browse Categories</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Books -->
+  <section class="container py-5">
+    <div class="section-title">
+      <h2>Featured Books</h2>
+    </div>
+    <div class="row g-4">
+      <!-- Book 1 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="card book-card animate-fade-in">
+          <img src="https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg" class="book-cover" alt="The Midnight Library">
+          <div class="card-body">
+            <div class="rating">
+              <i class="bi bi-star-fill"></i> 4.5
+            </div>
+            <h5 class="book-title">The Midnight Library</h5>
+            <p class="book-author">Matt Haig</p>
+            <span class="tag fiction">Fiction</span>
+            <a href="https://www.amazon.com/dp/0525559477" target="_blank" class="btn btn-primary w-100 mt-3">Read Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Book 2 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="card book-card animate-fade-in">
+          <img src="https://m.media-amazon.com/images/I/91bYsX41DVL.jpg" class="book-cover" alt="Atomic Habits">
+          <div class="card-body">
+            <div class="rating">
+              <i class="bi bi-star-fill"></i> 4.8
+            </div>
+            <h5 class="book-title">Atomic Habits</h5>
+            <p class="book-author">James Clear</p>
+            <span class="tag self-help">Self-Help</span>
+            <a href="https://www.amazon.com/dp/0735211299" target="_blank" class="btn btn-primary w-100 mt-3">Read Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Book 3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="card book-card animate-fade-in">
+          <img src="https://m.media-amazon.com/images/I/91rUix9Yq-L.jpg" class="book-cover" alt="Dune">
+          <div class="card-body">
+            <div class="rating">
+              <i class="bi bi-star-fill"></i> 4.7
+            </div>
+            <h5 class="book-title">Dune</h5>
+            <p class="book-author">Frank Herbert</p>
+            <span class="tag sci-fi">Sci-Fi</span>
+            <a href="https://www.amazon.com/dp/0441172717" target="_blank" class="btn btn-primary w-100 mt-3">Read Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Book 4 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="card book-card animate-fade-in">
+          <img src="https://m.media-amazon.com/images/I/81t2CVWEsUL.jpg" class="book-cover" alt="Evelyn Hugo">
+          <div class="card-body">
+            <div class="rating">
+              <i class="bi bi-star-fill"></i> 4.6
+            </div>
+            <h5 class="book-title">The Seven Husbands of Evelyn Hugo</h5>
+            <p class="book-author">Taylor Jenkins Reid</p>
+            <span class="tag romance">Romance</span>
+            <a href="https://www.amazon.com/dp/1501161938" target="_blank" class="btn btn-primary w-100 mt-3">Read Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="container py-5">
+    <div class="section-title">
+      <h2>What Readers Say</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="review-card animate-fade-in">
+          <p class="review-text">The Midnight Library is a beautiful story that makes you rethink life choices. It's poetic, profound, and utterly captivating.</p>
+          <div class="review-user">Amna A.</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="review-card animate-fade-in">
+          <p class="review-text">Atomic Habits gave me practical steps to improve my daily routine. I've already seen incredible changes in just 3 weeks!</p>
+          <div class="review-user">Omar S.</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="review-card animate-fade-in">
+          <p class="review-text">Dune is a masterpiece! Deep world-building and amazing storytelling. This is the kind of book that stays with you long after you finish it.</p>
+          <div class="review-user">Leena M.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trending -->
+  <section class="container py-5">
+    <div class="section-title">
+      <h2>Trending This Week</h2>
+    </div>
+    <div class="trending-section">
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg" class="w-100" alt="The Midnight Library">
+        <div class="card-body">
+          <h5 class="book-title">The Midnight Library</h5>
+          <p class="book-author">Matt Haig</p>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i> 4.5
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/91bYsX41DVL.jpg" class="w-100" alt="Atomic Habits">
+        <div class="card-body">
+          <h5 class="book-title">Atomic Habits</h5>
+          <p class="book-author">James Clear</p>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i> 4.8
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/91rUix9Yq-L.jpg" class="w-100" alt="Dune">
+        <div class="card-body">
+          <h5 class="book-title">Dune</h5>
+          <p class="book-author">Frank Herbert</p>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i> 4.7
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/81t2CVWEsUL.jpg" class="w-100" alt="Evelyn Hugo">
+        <div class="card-body">
+          <h5 class="book-title">The Seven Husbands of Evelyn Hugo</h5>
+          <p class="book-author">Taylor Jenkins Reid</p>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i> 4.6
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://m.media-amazon.com/images/I/713jIoMO3UL.jpg" class="w-100" alt="Sapiens">
+        <div class="card-body">
+          <h5 class="book-title">Sapiens: A Brief History</h5>
+          <p class="book-author">Yuval Noah Harari</p>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i> 4.7
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-5">
+          <div class="footer-logo">📚 Story<span>Space03</span></div>
+          <p class="text-muted mb-4">Your digital library for endless reading journeys. Discover, read, and connect through stories that matter.</p>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+           
+          </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-6 mb-5">
+          <h5 class="mb-4">Quick Links</h5>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="search.html">Search</a>
+            <a href="favorite.html">Favorites</a>
+            <a href="Profile.html">Profile</a>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-5">
+          <h5 class="mb-4">Categories</h5>
+          <div class="footer-links">
+            <a href="#">Fiction</a>
+            <a href="#">Self-Help</a>
+            <a href="#">Science Fiction</a>
+            <a href="#">Romance</a>
+            <a href="#">Biography</a>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-5">
+          <h5 class="mb-4">Subscribe</h5>
+          <p class="text-muted mb-4">Get weekly book recommendations and exclusive content.</p>
+          <form>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Your email" aria-label="Email">
+              <button class="btn btn-primary" type="button">Go</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2025 StorySpace03. All rights reserved. | Privacy Policy | Terms of Service</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Script -->
+  <script>
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Animate elements on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const animateElements = document.querySelectorAll('.animate-fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      animateElements.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(el);
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - StorySpace03</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #166088;
+      --accent: #e67e22;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4caf50;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+    .navbar.scrolled {
+      padding: 0.5rem 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary) !important;
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand span {
+      color: var(--accent);
+    }
+    .navbar-nav .nav-link {
+      color: var(--dark) !important;
+      font-weight: 500;
+      margin: 0 12px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--primary) !important;
+    }
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* User Header */
+    .user-header {
+      background: linear-gradient(135deg, rgba(74, 111, 165, 0.1), rgba(22, 96, 136, 0.1));
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .user-header::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(230, 57, 70, 0.05);
+      z-index: 0;
+    }
+    .user-header::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: -50px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(74, 111, 165, 0.05);
+      z-index: 0;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+    }
+    .user-info h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    .user-info p {
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+    .badge-primary {
+      background-color: var(--primary);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-left: 1rem;
+    }
+
+    /* Stats Cards */
+    .stat-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .stat-number {
+      color: var(--primary);
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      line-height: 1;
+    }
+    .stat-label {
+      margin: 0;
+      color: #666;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Special style for Challenges Card */
+    .stat-card-challenges {
+      background: linear-gradient(135deg, #4a6fa5, #166088);
+      color: white;
+      box-shadow: 0 8px 25px rgba(74, 111, 165, 0.3);
+    }
+    .stat-card-challenges .stat-number,
+    .stat-card-challenges .stat-label {
+      color: white;
+    }
+
+    /* Section Titles */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent);
+      border-radius: 10px;
+    }
+
+    /* Book Cards */
+    .book-card {
+      background-color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    .book-cover {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .book-card:hover .book-cover {
+      transform: scale(1.05);
+    }
+    .book-body {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+    .book-author {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    .progress-text {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0.5rem 0;
+    }
+    .stars {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-top: auto;
+    }
+    .stars i {
+      margin-right: 2px;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      height: 6px;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .user-header {
+        padding: 2rem 1.5rem;
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+      }
+      .user-info h2 {
+        font-size: 2rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .stat-number {
+        font-size: 1.8rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+      .book-title {
+        font-size: 1.2rem;
+      }
+    }
+    @media (max-width: 576px) {
+      .user-header {
+        padding: 1.5rem;
+      }
+      .avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+      }
+      .user-info h2 {
+        font-size: 1.8rem;
+      }
+      .stat-number {
+        font-size: 1.5rem;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      .book-cover {
+        height: 180px;
+      }
+    }
+
+    /* Floating elements for decoration */
+    .floating-element {
+      position: absolute;
+      opacity: 0.05;
+      z-index: -1;
+    }
+    .floating-book {
+      top: 10%;
+      left: 5%;
+      font-size: 8rem;
+      color: var(--primary);
+    }
+    .floating-star {
+      bottom: 15%;
+      right: 10%;
+      font-size: 6rem;
+      color: var(--accent);
+    }
+    
+    /* Button Styling */
+    .btn-custom {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    .btn-custom:hover {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">📚 Story<span>Space03</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="favorite.html">Favorites</a></li>
+          <li class="nav-item"><a class="nav-link" href="Search.html">Search</a></li>
+          <li class="nav-item"><a class="nav-link" href="Settings.html">Settings <i class="bi bi-gear"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- User Header -->
+  <div class="container py-5">
+    <div class="user-header">
+      <div class="floating-element floating-book">📖</div>
+      <div class="floating-element floating-star">⭐</div>
+      <div class="d-flex flex-column align-items-center text-center">
+        <div class="avatar">AA</div>
+        <div class="user-info">
+          <h2>Amna Abbass</h2>
+          <p class="mb-0">active reader · joined January 2023</p>
+          <span class="badge badge-primary">Premium Member</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4 mb-5">
+      <div class="col">
+        <div class="stat-card">
+          <h3 class="stat-number">47</h3>
+          <p class="stat-label">Books Read</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="stat-card">
+          <h3 class="stat-number">286</h3>
+          <p class="stat-label">Hours Read</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="stat-card">
+          <h3 class="stat-number">12</h3>
+          <p class="stat-label">Favorites</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="stat-card">
+          <h3 class="stat-number">8</h3>
+          <p class="stat-label">Reviews</p>
+        </div>
+      </div>
+      <!-- New Challenges Card -->
+      <div class="col">
+        <a href="challenges.html" style="text-decoration: none; color: inherit;">
+          <div class="stat-card stat-card-challenges">
+            <h3 class="stat-number">5</h3>
+            <p class="stat-label">Challenges</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Currently Reading -->
+    <div class="section">
+      <h2 class="section-title">Currently Reading</h2>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/9876543-L.jpg" alt="The AI Revolution" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">The AI Revolution</h4>
+              <p class="book-author">Dr. Sarah Johnson</p>
+              <p class="progress-text">Progress 69%</p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" style="width: 69%;" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="stars">★★★★☆</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/8231856-L.jpg" alt="Don't Let Him In" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">Don't Let Him In</h4>
+              <p class="book-author">Lisa Jewell</p>
+              <p class="progress-text">Progress 75%</p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="stars">★★★★☆</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/240726-L.jpg" alt="A Mother's Love" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">A Mother's Love</h4>
+              <p class="book-author">Danielle Steel</p>
+              <p class="progress-text">Progress 84%</p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" style="width: 84%;" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/10521247-L.jpg" alt="The Silent Patient" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">The Silent Patient</h4>
+              <p class="book-author">Alex Michaelides</p>
+              <p class="progress-text">Progress 42%</p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" style="width: 42%;" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Read Section -->
+    <div class="section mt-5">
+      <h2 class="section-title">Read</h2>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/10513369-L.jpg" alt="One Golden Summer" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">One Golden Summer</h4>
+              <p class="book-author">Carley Fortune</p>
+              <p class="progress-text">Finished</p>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/8226191-L.jpg" alt="Never Flinch" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">Never Flinch</h4>
+              <p class="book-author">Stephen King</p>
+              <p class="progress-text">Finished</p>
+              <div class="stars">★★★★☆</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/240726-L.jpg" alt="Atomic Habits" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">Atomic Habits</h4>
+              <p class="book-author">James Clear</p>
+              <p class="progress-text">Finished</p>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="book-card">
+            <img src="https://covers.openlibrary.org/b/id/240727-L.jpg" alt="Sapiens" class="book-cover">
+            <div class="book-body">
+              <h4 class="book-title">Sapiens</h4>
+              <p class="book-author">Yuval Noah Harari</p>
+              <p class="progress-text">Finished</p>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="text-center mt-5">
+      <a href="#" class="btn btn-custom">View All Books</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Script -->
+  <script>
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Animate elements on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const animateElements = document.querySelectorAll('.stat-card, .book-card');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      animateElements.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(el);
+      });
+    });
+  </script>
+
+</body>
+</html>

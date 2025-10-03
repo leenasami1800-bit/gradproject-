@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Favourite Books - StorySpace03</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --primary-dark: #166088;
+      --accent: #e67e22;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --text: #333;
+      --text-light: #6c757d;
+      --border: #dee2e6;
+      --card-bg: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+    .navbar.scrolled {
+      padding: 0.5rem 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary) !important;
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand span {
+      color: var(--accent);
+    }
+    .navbar-nav .nav-link {
+      color: var(--dark) !important;
+      font-weight: 500;
+      margin: 0 12px;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--primary) !important;
+    }
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, rgba(74, 111, 165, 0.9), rgba(22, 96, 136, 0.9));
+      color: white;
+      padding: 4rem 0;
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      z-index: 0;
+    }
+    
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: -50px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      z-index: 0;
+    }
+    
+    .page-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .page-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Book Cards */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .book-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow);
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .book-card:hover .book-cover {
+      transform: scale(1.05);
+    }
+
+    .book-details {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .book-author {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .favorite-icon {
+      color: var(--accent);
+      font-size: 1.5rem;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .favorite-icon.filled {
+      color: var(--accent);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      .page-header {
+        padding: 3rem 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      .page-header {
+        padding: 2.5rem 0;
+      }
+      .book-cover {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      .page-header {
+        padding: 2rem 0;
+      }
+      .books-grid {
+        grid-template-columns: 1fr;
+      }
+      .book-cover {
+        height: 240px;
+      }
+    }
+
+    /* Floating elements for decoration */
+    .floating-element {
+      position: absolute;
+      opacity: 0.05;
+      z-index: -1;
+    }
+    
+    .floating-book {
+      top: 10%;
+      left: 5%;
+      font-size: 8rem;
+      color: var(--primary);
+    }
+    
+    .floating-star {
+      bottom: 15%;
+      right: 10%;
+      font-size: 6rem;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">📚 Story<span>Space03</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search.html">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="favorite.html">Favourites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Profile.html">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Login.html">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="floating-element floating-book">📖</div>
+    <div class="floating-element floating-star">⭐</div>
+    <div class="container">
+      <h1>My Favourite Books</h1>
+      <p class="page-subtitle">A curated collection of books that have inspired, moved, and transformed me</p>
+    </div>
+  </section>
+
+  <!-- Books Grid -->
+  <div class="container py-4">
+    <div class="books-grid">
+      
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/10521247-L.jpg" alt="The Silent Patient" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">The Silent Patient</h5>
+            <p class="book-author">by Alex Michaelides</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/8231856-L.jpg" alt="Atomic Habits" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">Atomic Habits</h5>
+            <p class="book-author">by James Clear</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/10513369-L.jpg" alt="It Ends With Us" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">It Ends With Us</h5>
+            <p class="book-author">by Colleen Hoover</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/240726-L.jpg" alt="Sapiens" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">Sapiens: A Brief History of Humankind</h5>
+            <p class="book-author">by Yuval Noah Harari</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/10521248-L.jpg" alt="Deep Work" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">Deep Work</h5>
+            <p class="book-author">by Cal Newport</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/10513370-L.jpg" alt="The Psychology of Money" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">The Psychology of Money</h5>
+            <p class="book-author">by Morgan Housel</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/9876543-L.jpg" alt="The Art of Learning" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">The Art of Learning</h5>
+            <p class="book-author">by Josh Waitzkin</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card book-card h-100">
+          <i class="bi bi-heart favorite-icon filled" title="Remove from favorites"></i>
+          <img src="https://covers.openlibrary.org/b/id/10513371-L.jpg" alt="Educated" class="book-cover">
+          <div class="book-details">
+            <h5 class="book-title">Educated</h5>
+            <p class="book-author">by Tara Westover</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Favorite icon functionality
+    document.querySelectorAll('.favorite-icon').forEach(icon => {
+      icon.addEventListener('click', function() {
+        this.classList.toggle('filled');
+        if (this.classList.contains('filled')) {
+          this.title = 'Remove from favorites';
+        } else {
+          this.title = 'Add to favorites';
+        }
+      });
+    });
+
+    // Add animation on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const elements = document.querySelectorAll('.book-card');
+      elements.forEach((el, index) => {
+        setTimeout(() => {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }, 100 * index);
+      });
+    });
+  </script>
+
+</body>
+</html>
